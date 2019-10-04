@@ -1,0 +1,27 @@
+{% extends "project/base.html" %}
+{% block page_content %}
+<div class="col-md-8 offset-md-2">
+    <h1>Blog Index</h1>
+    <hr>
+    {% for post in posts %}
+    <h2><a href="{% url 'blog_detail' post.pk%}">{{ post.title }}</a></h2>
+    <small>
+        {{ post.created_on.date }}
+        Categories:&nbsp;
+        {% for category in post.categories.all %}
+        <a href="{% url 'blog_category' category.name %}">
+            {{ category.name }}
+        </a>&nbsp;
+        {% endfor %}
+    </small>
+    <p>{{ post.body | slice:":400" }}...</p>
+        <div class="media">
+            <div class="media-body">
+                <img class="rounded float-left" src="{{ post.image.url }}" alt="This photo">
+            </div>
+        </div>
+
+        <a class="btn btn-info" href="{% url 'blog_detail' post.pk %}">Comment here</a>
+    {% endfor %}
+</div>
+{% endblock %}
